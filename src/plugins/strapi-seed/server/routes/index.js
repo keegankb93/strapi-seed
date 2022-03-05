@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const adminRoutes = require('./admin');
+const adminRoutes = require("./admin");
 
 module.exports = {
   admin: adminRoutes,

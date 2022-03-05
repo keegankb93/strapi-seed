@@ -8,8 +8,11 @@
     "kind": "plugin"
   },
   "dependencies": {
+    "@strapi/design-system": "^1.0.0",
+    "@strapi/icons": "^1.0.0",
     "ace-builds": "^1.4.14",
-    "react-ace": "^9.5.0"
+    "react-ace": "^9.5.0",
+    "styled-components": "^5.3.3"
   },
   "author": {
     "name": "A Strapi developer"
