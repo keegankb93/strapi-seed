@@ -35,6 +35,8 @@ import {
 import { Main } from "@strapi/design-system/Main";
 import { useNotifyAT } from "@strapi/design-system/LiveRegions";
 import { Typography } from "@strapi/design-system/Typography";
+import { Button } from "@strapi/design-system/Button";
+import { Alert } from "@strapi/design-system/Alert";
 
 // import PropTypes from 'prop-types';
 import pluginId from "../../pluginId";
@@ -46,6 +48,7 @@ const StackCentered = styled(Stack)`
 const HomePage = () => {
   const { formatMessage } = useIntl();
   const aceEditor = useRef(null);
+  const [showAlert, setShowAlert] = useState(false);
   const [model, setModel] = useState({
     uid: "",
     name: "",
@@ -76,6 +79,15 @@ const HomePage = () => {
             <Card>
               <Grid padding={2} gridCols={3}>
                 <GridItem padding={6}>
+                  <Alert
+                    variant="success"
+                    onClick={() => setShowAlert(false)}
+                    className={`${
+                      showAlert ? "display: block" : "display: none"
+                    }`}
+                  >
+                    {model.name} saved!
+                  </Alert>
                   <ModelList
                     setModel={setModel}
                     model={model}
@@ -87,8 +99,16 @@ const HomePage = () => {
                     label="Filename"
                     disabled
                   />
-                  <BaseButton>Seed</BaseButton>
-                  <BaseButton onClick={saveFile}>Save</BaseButton>
+                  <Button>Seed</Button>
+                  <Button
+                    onClick={() => {
+                      saveFile();
+                      setShowAlert(true);
+                    }}
+                    variant="success"
+                  >
+                    Save
+                  </Button>
                 </GridItem>
                 <GridItem padding={6}>
                   <EditorJSON model={model} aceEditor={aceEditor} />
