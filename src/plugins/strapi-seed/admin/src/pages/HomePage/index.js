@@ -4,6 +4,9 @@
  *
  */
 import React, { memo, useRef, useEffect, useState } from "react";
+import ModelList from "../../components/ModelList";
+import EditorJSON from "../../components/EditorJSON";
+import FieldList from "../../components/FieldList";
 import { upload, getContentTypes, findSeed } from "../../actions";
 import styled from "styled-components";
 import { useQuery } from "react-query";
@@ -16,7 +19,6 @@ import { ContentBox } from "@strapi/helper-plugin";
 import { TextInput } from "@strapi/design-system/TextInput";
 import { Stack } from "@strapi/design-system/Stack";
 import { Grid, GridItem } from "@strapi/design-system/Grid";
-import { Select, Option, OptGroup } from "@strapi/design-system/Select";
 import { Field, FieldInput } from "@strapi/design-system/Field";
 import { Card, CardContent } from "@strapi/design-system/Card";
 import { BaseButton } from "@strapi/design-system/BaseButton";
@@ -33,11 +35,6 @@ import {
 import { Main } from "@strapi/design-system/Main";
 import { useNotifyAT } from "@strapi/design-system/LiveRegions";
 import { Typography } from "@strapi/design-system/Typography";
-import { Table, Thead, Tbody, Tr, Td, Th } from "@strapi/design-system/Table";
-import AceEditor from "react-ace";
-
-import "ace-builds/src-noconflict/mode-json";
-import "ace-builds/src-noconflict/theme-monokai";
 
 // import PropTypes from 'prop-types';
 import pluginId from "../../pluginId";
@@ -49,57 +46,22 @@ const StackCentered = styled(Stack)`
 const HomePage = () => {
   const { formatMessage } = useIntl();
   const aceEditor = useRef(null);
-  const [modelList, setModelList] = useState([]);
-  const [model, setModel] = useState({});
-  const [modelAttributes, setModelAttributes] = useState([]);
-  const [value, setValue] = useState();
-  const [editorValue, setEditorValue] = useState("");
-  const [filename, setFilename] = useState("");
+  const [model, setModel] = useState({
+    uid: "",
+    name: "",
+    filename: "",
+    attributes: [],
+  });
 
-  useEffect(async () => {
-    const contentTypes = await getContentTypes();
-    setModelList(contentTypes);
-  }, []);
-
-  useEffect(async () => {
-    console.log(filename);
-    const fileData = await findSeed({ filename: filename });
-    console.log(fileData);
-    setEditorValue(JSON.stringify(fileData, null, "\t"));
-  }, [filename]);
-
-  useEffect(() => {
-    if (editorValue !== "") {
-      console.log(model.attributes);
-      const attributes = [];
-      for (const [key, value] of Object.entries(model.attributes)) {
-        attributes.push([key, value]);
-      }
-      console.log(attributes);
-      setModelAttributes(attributes);
-    }
-  }, [editorValue]);
-
-  /*   function onChange(newValue) {
-    console.log("change", newValue);
-  } */
-
-  function onClick() {
+  function saveFile() {
     const data = aceEditor.current.editor.getValue();
-    upload({ filename: filename, data: data });
-  }
 
-  async function getModelAttributes() {}
-
-  async function readFile() {}
-
-  function handleListChange(e) {
-    setValue(e);
-    const [selectedModel] = modelList.filter(
-      (model) => e === model.collectionName
-    );
-    setModel(selectedModel);
-    setFilename(`${selectedModel.collectionName}.json`);
+    try {
+      JSON.parse(data);
+      upload({ filename: model.filename, data: data });
+    } catch (e) {
+      console.log("custom error msg", e);
+    }
   }
 
   return (
@@ -114,62 +76,25 @@ const HomePage = () => {
             <Card>
               <Grid padding={2} gridCols={3}>
                 <GridItem padding={6}>
-                  <Select
-                    label="Select a model"
-                    onChange={handleListChange}
-                    placeholder="Model..."
-                    value={value || ""}
-                  >
-                    {modelList.map((model) => {
-                      return (
-                        <Option
-                          key={model.uid}
-                          label={model.collectionName}
-                          value={model.collectionName}
-                        >
-                          {model.collectionName}
-                        </Option>
-                      );
-                    })}
-                  </Select>
+                  <ModelList
+                    setModel={setModel}
+                    model={model}
+                    saveFile={saveFile}
+                  />
                   <TextInput
-                    value={filename}
-                    name={filename}
+                    value={model.filename || ""}
+                    name={model.filename || ""}
                     label="Filename"
                     disabled
                   />
                   <BaseButton>Seed</BaseButton>
-                  <BaseButton onClick={onClick}>Save</BaseButton>
+                  <BaseButton onClick={saveFile}>Save</BaseButton>
                 </GridItem>
                 <GridItem padding={6}>
-                  <AceEditor
-                    ref={aceEditor}
-                    wrapEnabled={true}
-                    placeholder="See example at ..."
-                    mode="json"
-                    theme="monokai"
-                    name="strapi-seed-json"
-                    fontSize={14}
-                    showPrintMargin={true}
-                    showGutter={true}
-                    highlightActiveLine={true}
-                    value={editorValue}
-                    setOptions={{
-                      enableBasicAutocompletion: false,
-                      enableLiveAutocompletion: false,
-                      enableSnippets: false,
-                      showLineNumbers: true,
-                      tabSize: 2,
-                    }}
-                  />
+                  <EditorJSON model={model} aceEditor={aceEditor} />
                 </GridItem>
                 <GridItem padding={6}>
-                  <h2 style={{ "margin-bottom": "12px" }}>Fields</h2>
-                  {modelAttributes.map((attribute) => (
-                    <div key={`${model.collectionName}${attribute[0]}`}>
-                      {`${attribute[0]}: ${attribute[1].type}`}
-                    </div>
-                  ))}
+                  <FieldList model={model} />
                 </GridItem>
               </Grid>
             </Card>
