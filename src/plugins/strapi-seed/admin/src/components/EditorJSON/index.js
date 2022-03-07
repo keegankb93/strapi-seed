@@ -12,28 +12,42 @@ export default memo(function EditorJSON({ model, aceEditor }) {
 
   useEffect(() => {
     if (model.name.length === 0) {
-      const init = {
-        MODELNAME: [
-          {
-            FIELD: "VALUE",
-          },
-        ],
-      };
-      setEditorValue(JSON.stringify(init, null, "\t"));
+      aceEditor.current.editor.setReadOnly(true);
       return;
+    } else {
+      aceEditor.current.editor.setReadOnly(false);
     }
 
     async function readFile() {
       const fileData = await findSeed({ filename: model.filename });
-      return fileData;
+
+      if (fileData.success) {
+        console.log("did i render twice?");
+        setEditorValue(fileData.success, null, "\t");
+      } else {
+        console.log(
+          "Error reading seed file, setting editor to defaults for model...",
+          fileData.error
+        );
+        const defaultJSON = {};
+        defaultJSON[model.name] = [
+          {
+            modelField: "modelValue",
+          },
+        ];
+        setEditorValue(JSON.stringify(defaultJSON, null, "\t"));
+      }
     }
-    readFile().then((res) => setEditorValue(JSON.stringify(res, null, "\t")));
+
+    readFile();
   }, [model]);
+
   return (
     <AceEditor
+      disabled
       ref={aceEditor}
       wrapEnabled={true}
-      placeholder="Paste or edit your JSON here"
+      placeholder="Select a model to create, edit or paste your seed data"
       mode="json"
       theme="monokai"
       name="strapi-seed-json"

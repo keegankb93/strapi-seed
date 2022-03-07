@@ -10,20 +10,9 @@ import { Grid, GridItem } from "@strapi/design-system/Grid";
 export default function Settings({ setModel, model, aceEditor }) {
   const toggleNotification = useNotification();
 
-  function messageNotification(action, type, error = "") {
-    const messages = {
-      save: {
-        success: `${model.name} has been saved successfully`,
-        error: error,
-      },
-      seed: {
-        success: `${model.name} has been seeded successfully`,
-        error: error,
-      },
-    };
-
-    const message =
-      error.length === 0 ? messages[action].success : messages[action].error;
+  function messageNotification(action, res = "") {
+    const type = res.success ? "success" : "warning";
+    const message = res.success ? res.success : res.error.message;
 
     toggleNotification({
       // required
@@ -38,17 +27,11 @@ export default function Settings({ setModel, model, aceEditor }) {
     });
   }
 
-  function saveFile() {
+  async function saveFile() {
     const data = aceEditor.current.editor.getValue();
-
-    try {
-      JSON.parse(data);
-      upload({ filename: model.filename, data: data });
-    } catch (e) {
-      console.log(e);
-      return messageNotification("save", "warning", `${e.message}`);
-    }
-    messageNotification("save", "success");
+    const res = await upload({ filename: model.filename, fileData: data });
+    setFileExists(true);
+    messageNotification("save", res);
   }
 
   async function seed() {
@@ -58,7 +41,7 @@ export default function Settings({ setModel, model, aceEditor }) {
       model: model.name,
       data: data,
     });
-    messageNotification("seed", "success");
+    messageNotification("seed", res);
   }
 
   return (

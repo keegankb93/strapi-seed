@@ -54,7 +54,6 @@ const HomePage = () => {
     name: "",
     attributes: [],
     filename: "",
-    fileData: "",
   });
 
   return (

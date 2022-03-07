@@ -1,19 +1,14 @@
 const path = require("path");
+const saveFile = require("./write-file");
 
 // Seed data
-
-// Relation dependencies
-//const features = require("./features.js");
-//const images = require("./images.js");
 
 // API
 let api = "";
 
 const self = (module.exports = {
-  // Create integration
+  // Create item
   create: async (data) => {
-    // Create integration from data and its features.
-    // Relations aren't available by default so we need to "Populate" the relation field for creation.
     data.publishedAt = Date.now();
     const createdItem = await strapi.entityService.create(api, {
       data: data,
@@ -50,9 +45,16 @@ const self = (module.exports = {
     return updatedItem;
   },
 
+  saveSeededItems: async (filename, fileData) => {
+    /*   saveFile.write({
+      filename: "seeded-model-items.json",
+      fileData: JSON.stringify(seededModelItems),
+    }); */
+  },
+
+  delete: async () => {},
   // Loop through integration seed data and create an integration for each available
   seed: async (data) => {
-    console.log(data.model, data.data);
     api = data.uid;
     const modelData = await JSON.parse(data.data);
     const modelItems = modelData[data.model];
@@ -69,6 +71,6 @@ const self = (module.exports = {
       `\nCreated ${seededModelItems.length} ${data.model}:\n`
     );
 
-    return { success: "Created ${seededModelItems.length} ${data.model}\n" };
+    return { success: `Created ${seededModelItems.length} ${data.model}` };
   },
 });
