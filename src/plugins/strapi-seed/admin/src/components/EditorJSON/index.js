@@ -1,15 +1,25 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useCallback, useState, memo } from "react";
 import { findSeed } from "../../actions";
 import AceEditor from "react-ace";
 
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
 
-export default function EditorJSON({ model, aceEditor }) {
+// If we don't update the value due to error then it will revert to the previous read value due to useNotification()
+// So we use memo
+export default memo(function EditorJSON({ model, aceEditor }) {
   const [editorValue, setEditorValue] = useState("");
 
   useEffect(() => {
     if (model.name.length === 0) {
+      const init = {
+        MODELNAME: [
+          {
+            FIELD: "VALUE",
+          },
+        ],
+      };
+      setEditorValue(JSON.stringify(init, null, "\t"));
       return;
     }
 
@@ -19,12 +29,11 @@ export default function EditorJSON({ model, aceEditor }) {
     }
     readFile().then((res) => setEditorValue(JSON.stringify(res, null, "\t")));
   }, [model]);
-
   return (
     <AceEditor
       ref={aceEditor}
       wrapEnabled={true}
-      placeholder="See example at ..."
+      placeholder="Paste or edit your JSON here"
       mode="json"
       theme="monokai"
       name="strapi-seed-json"
@@ -42,4 +51,4 @@ export default function EditorJSON({ model, aceEditor }) {
       }}
     />
   );
-}
+});

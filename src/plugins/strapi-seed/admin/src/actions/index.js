@@ -16,3 +16,11 @@ export async function findSeed(data) {
   });
   return res;
 }
+
+export async function seedModel(data) {
+  const res = await request("/strapi-seed/seed", {
+    method: "POST",
+    body: data,
+  });
+  return res;
+}

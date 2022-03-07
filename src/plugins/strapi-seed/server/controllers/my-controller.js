@@ -23,10 +23,16 @@ module.exports = {
   },
 
   findSeed: async (ctx) => {
-    console.log(ctx.request.body);
     return (ctx.body = await strapi
       .plugin("strapi-seed")
       .service("findSeed")
       .findSeed(ctx.request.body));
+  },
+
+  seedModel: async (ctx) => {
+    return (ctx.body = await strapi
+      .plugin("strapi-seed")
+      .service("seedModel")
+      .seed(ctx.request.body));
   },
 };

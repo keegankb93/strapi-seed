@@ -28,38 +28,38 @@ export default function ModelList({ setModel, model }) {
   }
 
   function handleSelect(modelName) {
-    //setSelectValue(val);
-
     const [selectedModel] = modelList.filter(
       (model) => modelName === model.collectionName
     );
-
+    const attributes = getAttributes(selectedModel);
     setModel({
       uid: selectedModel.uid,
       name: selectedModel.collectionName,
       filename: `${selectedModel.collectionName}.json`,
-      attributes: getAttributes(selectedModel),
+      attributes: attributes,
     });
   }
 
   return (
-    <Select
-      label="Select a model"
-      onChange={handleSelect}
-      placeholder="Model..."
-      value={model.name || ""}
-    >
-      {modelList.map((model) => {
-        return (
-          <Option
-            key={model.uid}
-            label={model.collectionName}
-            value={model.collectionName}
-          >
-            {model.collectionName}
-          </Option>
-        );
-      })}
-    </Select>
+    <div style={{ marginBottom: "1rem" }}>
+      <Select
+        label="Select a model"
+        onChange={handleSelect}
+        placeholder="Model..."
+        value={model.name || ""}
+      >
+        {modelList.map((model) => {
+          return (
+            <Option
+              key={model.uid}
+              label={model.collectionName}
+              value={model.collectionName}
+            >
+              {model.collectionName}
+            </Option>
+          );
+        })}
+      </Select>
+    </div>
   );
 }

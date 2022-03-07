@@ -4,7 +4,8 @@
   "info": {
     "singularName": "product",
     "pluralName": "products",
-    "displayName": "products"
+    "displayName": "products",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -16,6 +17,9 @@
     },
     "type": {
       "type": "string"
+    },
+    "price": {
+      "type": "decimal"
     }
   }
 }

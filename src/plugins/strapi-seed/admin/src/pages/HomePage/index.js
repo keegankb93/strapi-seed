@@ -36,7 +36,7 @@ import { Main } from "@strapi/design-system/Main";
 import { useNotifyAT } from "@strapi/design-system/LiveRegions";
 import { Typography } from "@strapi/design-system/Typography";
 import { Button } from "@strapi/design-system/Button";
-import { Alert } from "@strapi/design-system/Alert";
+import Settings from "../../components/Settings";
 
 // import PropTypes from 'prop-types';
 import pluginId from "../../pluginId";
@@ -48,24 +48,14 @@ const StackCentered = styled(Stack)`
 const HomePage = () => {
   const { formatMessage } = useIntl();
   const aceEditor = useRef(null);
-  const [showAlert, setShowAlert] = useState(false);
+
   const [model, setModel] = useState({
     uid: "",
     name: "",
-    filename: "",
     attributes: [],
+    filename: "",
+    fileData: "",
   });
-
-  function saveFile() {
-    const data = aceEditor.current.editor.getValue();
-
-    try {
-      JSON.parse(data);
-      upload({ filename: model.filename, data: data });
-    } catch (e) {
-      console.log("custom error msg", e);
-    }
-  }
 
   return (
     <>
@@ -79,36 +69,11 @@ const HomePage = () => {
             <Card>
               <Grid padding={2} gridCols={3}>
                 <GridItem padding={6}>
-                  <Alert
-                    variant="success"
-                    onClick={() => setShowAlert(false)}
-                    className={`${
-                      showAlert ? "display: block" : "display: none"
-                    }`}
-                  >
-                    {model.name} saved!
-                  </Alert>
-                  <ModelList
-                    setModel={setModel}
+                  <Settings
                     model={model}
-                    saveFile={saveFile}
+                    setModel={setModel}
+                    aceEditor={aceEditor}
                   />
-                  <TextInput
-                    value={model.filename || ""}
-                    name={model.filename || ""}
-                    label="Filename"
-                    disabled
-                  />
-                  <Button>Seed</Button>
-                  <Button
-                    onClick={() => {
-                      saveFile();
-                      setShowAlert(true);
-                    }}
-                    variant="success"
-                  >
-                    Save
-                  </Button>
                 </GridItem>
                 <GridItem padding={6}>
                   <EditorJSON model={model} aceEditor={aceEditor} />

@@ -25,5 +25,13 @@ module.exports = {
         policies: [],
       },
     },
+    {
+      method: "POST",
+      path: "/seed",
+      handler: "myController.seedModel",
+      config: {
+        policies: [],
+      },
+    },
   ],
 };
