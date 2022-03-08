@@ -1,6 +1,6 @@
 {
   "name": "strapi-seed",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Create seed data for strapi",
   "strapi": {
     "name": "strapi-seed",
@@ -15,17 +15,18 @@
     "react-ace": "^9.5.0",
     "styled-components": "^5.3.3"
   },
-  "author": {
-    "name": "Keegan Kwirant"
-  },
+  "author": "Keegan Kwirant",
   "maintainers": [
-    {
-      "name": "Keegan Kwirant"
-    }
+    "Keegan Kwirant"
   ],
   "engines": {
     "node": ">=12.x.x <=16.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "main": "strapi-admin.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }
