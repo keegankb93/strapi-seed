@@ -1,10 +1,10 @@
 {
   "name": "strapi-seed",
   "version": "0.0.0",
-  "description": "This is the description of the plugin.",
+  "description": "Create seed data for strapi",
   "strapi": {
     "name": "strapi-seed",
-    "description": "Description of strapi-seed plugin",
+    "description": "Create seed data for strapi",
     "kind": "plugin"
   },
   "dependencies": {
@@ -16,11 +16,11 @@
     "styled-components": "^5.3.3"
   },
   "author": {
-    "name": "A Strapi developer"
+    "name": "Keegan Kwirant"
   },
   "maintainers": [
     {
-      "name": "A Strapi developer"
+      "name": "Keegan Kwirant"
     }
   ],
   "engines": {

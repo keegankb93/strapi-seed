@@ -8,7 +8,7 @@ const uploadApi = "plugin::upload.upload";
 
 const images = {
   filepath: function (filename) {
-    return path.join(__dirname, `../../.tmp/${filename}`);
+    return path.join(__dirname, `../../tmp/${filename}`);
   },
 
   fetch: async function (url) {
