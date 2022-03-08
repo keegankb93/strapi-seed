@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useCallback, useState, memo } from "react";
-import { findSeed } from "../../actions";
+import { read } from "../../actions";
 import AceEditor from "react-ace";
 
 import "ace-builds/src-noconflict/mode-json";
@@ -19,11 +19,10 @@ export default memo(function EditorJSON({ model, aceEditor }) {
     }
 
     async function readFile() {
-      const fileData = await findSeed({ filename: model.filename });
+      const fileData = await read({ filename: model.filename });
 
       if (fileData.success) {
-        console.log("did i render twice?");
-        setEditorValue(fileData.success, null, "\t");
+        setEditorValue(JSON.stringify(fileData.success, null, "\t"));
       } else {
         console.log(
           "Error reading seed file, setting editor to defaults for model...",

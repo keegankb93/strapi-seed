@@ -3,16 +3,16 @@ module.exports = {
   routes: [
     {
       method: "POST",
-      path: "/find-seed",
-      handler: "myController.findSeed",
+      path: "/read",
+      handler: "fileController.read",
       config: {
         policies: [],
       },
     },
     {
       method: "POST",
-      path: "/upload",
-      handler: "myController.upload",
+      path: "/write",
+      handler: "fileController.write",
       config: {
         policies: [],
       },
@@ -29,6 +29,14 @@ module.exports = {
       method: "POST",
       path: "/seed",
       handler: "myController.seedModel",
+      config: {
+        policies: [],
+      },
+    },
+    {
+      method: "POST",
+      path: "/delete",
+      handler: "myController.delete",
       config: {
         policies: [],
       },

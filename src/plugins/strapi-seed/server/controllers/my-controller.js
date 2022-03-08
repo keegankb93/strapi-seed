@@ -8,13 +8,6 @@ module.exports = {
       .getWelcomeMessage();
   },
 
-  upload: (ctx) => {
-    ctx.body = strapi
-      .plugin("strapi-seed")
-      .service("writeFile")
-      .write(ctx.request.body);
-  },
-
   getContentTypes: async (ctx) => {
     return (ctx.body = await strapi
       .plugin("strapi-seed")
@@ -22,17 +15,16 @@ module.exports = {
       .getContentTypes());
   },
 
-  findSeed: async (ctx) => {
-    return (ctx.body = await strapi
-      .plugin("strapi-seed")
-      .service("findSeed")
-      .findSeed(ctx.request.body));
-  },
-
   seedModel: async (ctx) => {
     return (ctx.body = await strapi
       .plugin("strapi-seed")
       .service("seedModel")
       .seed(ctx.request.body));
+  },
+  delete: async (ctx) => {
+    return (ctx.body = await strapi
+      .plugin("strapi-seed")
+      .service("seedModel")
+      .delete(ctx.request.body));
   },
 };

@@ -1,11 +1,11 @@
 import { request } from "@strapi/helper-plugin";
 
-export async function upload(data) {
+export async function write(data) {
   //console.log(data.fileData);
 
   try {
     await JSON.parse(data.fileData);
-    const res = await request("/strapi-seed/upload", {
+    const res = await request("/strapi-seed/write", {
       method: "POST",
       body: data,
     });
@@ -23,9 +23,9 @@ export async function getContentTypes() {
   return res;
 }
 
-export async function findSeed(data) {
+export async function read(data) {
   try {
-    const res = await request("/strapi-seed/find-seed", {
+    const res = await request("/strapi-seed/read", {
       method: "POST",
       body: data,
     });
@@ -33,7 +33,7 @@ export async function findSeed(data) {
     if (res.error) {
       throw res.error;
     }
-    return res;
+    return { success: res };
   } catch (e) {
     return { error: e };
   }
@@ -47,7 +47,23 @@ export async function seedModel(data) {
     });
     return res;
   } catch (e) {
-    console.log(e);
+    return { error: e };
+  }
+}
+
+export async function deleteSeededItems(data) {
+  try {
+    const res = await request("/strapi-seed/delete", {
+      method: "POST",
+      body: data,
+    });
+
+    if (res.error) {
+      throw res.error;
+    }
+
+    return res;
+  } catch (e) {
     return { error: e };
   }
 }

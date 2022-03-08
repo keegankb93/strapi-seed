@@ -4,7 +4,8 @@
   "info": {
     "singularName": "company",
     "pluralName": "companies",
-    "displayName": "companies"
+    "displayName": "companies",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -16,6 +17,12 @@
     },
     "industry": {
       "type": "string"
+    },
+    "products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product",
+      "mappedBy": "company"
     }
   }
 }
