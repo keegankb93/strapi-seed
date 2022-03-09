@@ -53,22 +53,25 @@ const seedModel = {
         relationFunction: async (relation, items, findBy) => {
           const singularizedRelation = inflection.singularize(relation);
           const relationAPI = `api::${singularizedRelation}.${singularizedRelation}`;
-          const filterObj = {};
-          const [[...relatedFeatures]] = await Promise.all(
+
+          const [...relationItems] = await Promise.all(
             items.map(async (item) => {
+              const filterObj = {};
               filterObj[findBy] = { $eq: item };
-              const feature = await strapi.entityService.findMany(relationAPI, {
-                filters: filterObj,
-              });
-              return feature;
+              const [relationItem] = await strapi.entityService.findMany(
+                relationAPI,
+                {
+                  filters: filterObj,
+                }
+              );
+              return relationItem;
             })
           );
-          await this.update(createdItem.id, relation, relatedFeatures);
+          await this.update(createdItem.id, relation, relationItems);
         },
       };
 
       for (let key in updateObject) {
-        console.log(updateObject[key]["images"]);
         if (updateObject[key]["images"]) {
           updateFunctions.imageFunction(
             updateObject[key]["images"],

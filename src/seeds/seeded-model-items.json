@@ -1,5 +1,8 @@
 {
   "api::product.product": [
     239
+  ],
+  "api::company.company": [
+    45
   ]
 }

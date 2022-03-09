@@ -1,0 +1,8 @@
+{
+	"companies": [
+		{
+			"name": "Test company",
+			"products": { "relations": ["Dog insurance", "Homeowners"]
+}		}
+	]
+}
