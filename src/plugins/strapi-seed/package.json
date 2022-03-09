@@ -1,6 +1,6 @@
 {
   "name": "strapi-seed",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Create seed data for strapi",
   "strapi": {
     "name": "strapi-seed",
