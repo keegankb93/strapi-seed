@@ -76,7 +76,7 @@ const seedModel = {
           updateFunctions.imageFunction(
             updateObject[key]["images"],
             key,
-            `test-${createdItem.id}`
+            `seed-image-${createdItem.id}`
           );
         }
 
