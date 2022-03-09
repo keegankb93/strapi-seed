@@ -33,6 +33,14 @@ const images = {
     return file;
   },
 
+  removeTmpFiles: function () {
+    fs.readdirSync(path.join(__dirname, "../tmp"), {
+      withFileTypes: true,
+    }).forEach((file) => {
+      fs.unlinkSync(this.filepath(file.name));
+    });
+  },
+
   create: async function (images, imageName) {
     // Fetches and writes a tmp file returning a File object for Strapi's upload
     const [...filepaths] = await Promise.all(
@@ -54,14 +62,9 @@ const images = {
       files: filepaths,
     });
 
-    return createdItem;
+    this.removeTmpFiles();
 
-    // TODO: create a cleanup function to remove the tmp images once used
-    /* fs.unlink(filepath(filename), (err) => {
-    if (err) {
-      console.log(err);
-    }
-  }); */
+    return createdItem;
   },
 };
 

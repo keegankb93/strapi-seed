@@ -7,7 +7,7 @@ module.exports = {
     const { filename } = req;
     try {
       const fileData = fs.readFileSync(
-        path.join(__dirname, `../seeds/${filename}`),
+        path.join(__dirname, `../../../../seeds/${filename}`),
         "utf8"
       );
       return fileData;
@@ -26,7 +26,7 @@ module.exports = {
     const { filename, fileData } = data;
     try {
       await fs.promises.writeFile(
-        path.join(__dirname, `../seeds/${filename}`),
+        path.join(__dirname, `../../../../seeds/${filename}`),
         fileData,
         {
           flag: "w",

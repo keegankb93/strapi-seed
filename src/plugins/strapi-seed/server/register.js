@@ -16,11 +16,13 @@ module.exports = ({ strapi }) => {
   }
 
   function initFolders() {
-    const dirs = ["seeds", "tmp"];
-    for (let i = 0; i < dirs.length; i++) {
-      if (!fs.existsSync(path.join(__dirname, `/${dirs[i]}`))) {
-        fs.mkdirSync(path.join(__dirname, `/${dirs[i]}`));
-      }
+    if (!fs.existsSync(path.join(__dirname, `/tmp`))) {
+      fs.mkdirSync(path.join(__dirname, `/tmp}`));
+      ``;
+    }
+
+    if (!fs.existsSync(path.join(__dirname, `../../../seeds`))) {
+      fs.mkdirSync(path.join(__dirname, `../../../seeds`));
     }
   }
 

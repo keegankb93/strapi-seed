@@ -1,0 +1,12 @@
+{
+	"products": [
+		{
+			"name": "Dog insurance",
+			"product_images": {
+				"images": [
+					"https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg"
+				]
+			}
+		}
+	]
+}
