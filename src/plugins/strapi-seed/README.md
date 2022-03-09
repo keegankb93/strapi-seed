@@ -10,6 +10,21 @@ Components
 Dynamic zones
 Images from computer (Does support an array of image URLs!)
 
+## Installation
+
+`yarn add strapi-seed`
+
+Ignore any files that are created in the seed folder, so that your server doesn't restart when seeding.
+
+`watchIgnoreFiles: ["**/seeds/**"],`
+
+Enable it in your plugins.js file
+
+```
+"strapi-seed": {
+  enabled: true
+}
+```
 
 ## Usage
 
@@ -21,7 +36,6 @@ Images from computer (Does support an array of image URLs!)
 ```
 
 ## Example
-
 
 ```
 {
@@ -35,9 +49,10 @@ Images from computer (Does support an array of image URLs!)
 
 }
 ```
+
 Each file is an array of collection items. In this case an array of JSON objects for the model customer.
 
 - The related collection must already be created and at the moment can only be linked via a 'name' field. This will change later and be choosable.
-- Images can only be a URL at this time. 
+- Images can only be a URL at this time.
 
 If you want to quickstart your JSON file, navigate to strapi-seed in admin and select the model you want to create items for and copy the template that populates. :)

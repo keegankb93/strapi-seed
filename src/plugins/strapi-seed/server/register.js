@@ -17,7 +17,7 @@ module.exports = ({ strapi }) => {
 
   function initFolders() {
     if (!fs.existsSync(path.join(__dirname, `/tmp`))) {
-      fs.mkdirSync(path.join(__dirname, `/tmp}`));
+      fs.mkdirSync(path.join(__dirname, `/tmp`));
       ``;
     }
 
